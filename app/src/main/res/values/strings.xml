@@ -2,4 +2,5 @@
     <string name="app_name">kosong</string>
     <string name="button_send">send</string>
     <string name="edit_message">输入单词</string>
+    <string name="vocabulary">单词</string>
 </resources>
