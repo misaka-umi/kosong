@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,6 +17,8 @@ import java.util.Random;
 public class VocabularyActivity extends AppCompatActivity {
 
     ArrayList<String> letters = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,19 @@ public class VocabularyActivity extends AppCompatActivity {
                 editText.setText("");
             }
         });
+
     }
     public void sendMessage(View view) {
         EditText editText = (EditText) findViewById(R.id.editText);
         TextView textView = (TextView) findViewById(R.id.textView);
         TextView textView2 = (TextView) findViewById(R.id.textView1);
         String message = editText.getText().toString();
-        letters.add(message);
+        if(message.isEmpty()){
+            Toast.makeText(this,"需要输入单词",Toast.LENGTH_SHORT).show();
+            return ;
+        }else{
+            letters.add(message);
+        }
         ArrayList<Integer> numbers = new ArrayList<>();
         if(letters.size()>0){
             for(int i= 0;i<letters.size();i++){
@@ -67,6 +76,7 @@ public class VocabularyActivity extends AppCompatActivity {
             }
             textView.setText(vocabulary);
             textView2.setText(""+amount);
+
         }
     }
     public static int seekNumber(ArrayList<Integer> numbers,int number){

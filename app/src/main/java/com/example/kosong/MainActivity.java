@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, VocabularyActivity.class);
         startActivity(intent);
     }
+
+    public void changePlan(View view) {
+        Intent intent = new Intent(this, TodoActivity.class);
+        startActivity(intent);
+    }
+
     /* 测试用 */
     public void test(View view){
         Intent intent = new Intent(this, Main2Activity.class);
@@ -73,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 long hour = (a - day * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
                 long minute = (a - day * (1000 * 60 * 60 * 24) - hour * (1000 * 60 * 60)) / (1000 * 60);
                 long second = (a - day * (1000 * 60 * 60 * 24) - hour * (1000 * 60 * 60) - minute * (1000 * 60)) / 1000;
-                textView.setText(day + " Days\n" + hour + " Hrs " + minute + " Mins " + second + " s");
+                textView.setText(day + " Days " + hour + " Hours " + minute + " Mins " + second + " s");
             }else {
                 Toast.makeText(this, "小于等于零", Toast.LENGTH_SHORT).show();
             }
