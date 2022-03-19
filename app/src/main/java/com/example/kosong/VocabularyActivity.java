@@ -52,7 +52,8 @@ public class VocabularyActivity extends AppCompatActivity {
         TextView textView2 = (TextView) findViewById(R.id.textView1);
         String message = editText.getText().toString();
         if(message.isEmpty()){
-            Toast.makeText(this,"需要输入单词",Toast.LENGTH_SHORT).show();
+            recoverVocabulary();
+            Toast.makeText(this,"需要输入单词/已还原顺序",Toast.LENGTH_SHORT).show();
             return ;
         }else{
             letters.add(message);
@@ -60,11 +61,10 @@ public class VocabularyActivity extends AppCompatActivity {
         ArrayList<Integer> numbers = new ArrayList<>();
         if(letters.size()>0){
             for(int i= 0;i<letters.size();i++){
-                Random r = new Random();
-                int number = r.nextInt(letters.size());
-                int rightNumber = seekNumber(numbers,number);
+                int rightNumber = 0;
                 while(rightNumber==0){
-                    number +=1;
+                    Random r = new Random();
+                    int number = r.nextInt(letters.size());
                     rightNumber = seekNumber(numbers,number);
                 }
             }
@@ -80,9 +80,6 @@ public class VocabularyActivity extends AppCompatActivity {
         }
     }
     public static int seekNumber(ArrayList<Integer> numbers,int number){
-        if(number>=numbers.size()){
-            number = number-numbers.size();
-        }
         if(numbers.size()==0){
             numbers.add(number);
             return 1;
@@ -94,6 +91,22 @@ public class VocabularyActivity extends AppCompatActivity {
             }
             numbers.add(number);
             return 1;
+        }
+    }
+
+    //输入空单词恢复原顺序
+    public void recoverVocabulary() {
+        TextView textView = (TextView) findViewById(R.id.textView);
+        TextView textView2 = (TextView) findViewById(R.id.textView1);
+        String vocabulary = "";
+        int amount = 0;
+        if(letters.size()>0) {
+            for (int i = 0; i < letters.size(); i++) {
+                vocabulary = vocabulary + letters.get(i) + "  ";
+                amount += 1;
+            }
+            textView.setText(vocabulary);
+            textView2.setText("" + amount);
         }
     }
 
