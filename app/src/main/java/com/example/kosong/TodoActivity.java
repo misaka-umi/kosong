@@ -18,7 +18,6 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static java.util.logging.Logger.global;
 
 public class TodoActivity extends AppCompatActivity {
     SharedPreferences planSp;
