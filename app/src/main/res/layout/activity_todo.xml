@@ -18,51 +18,129 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-
-    <CheckBox
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="背单词"
-        android:textColor="#8F77B5"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <CheckBox
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:textSize="10sp"
+            android:id="@+id/edit_score1">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="数学四小时"
-        android:textColor="#8F77B5"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <CheckBox
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal2"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score2">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="专业课三小时"
-        android:textColor="#8F77B5"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <CheckBox
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal3"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score3">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="长难句等等...."
-        android:textColor="#8F77B5"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <CheckBox
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score4">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="其他的一些事..."
-        android:textColor="#8F77B5"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal5"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score5">
+        </EditText>
+    </LinearLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

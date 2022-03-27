@@ -4,12 +4,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import java.util.Date;
 
 public class TodoActivity extends AppCompatActivity {
     SharedPreferences planSp;
+    SharedPreferences goalSp;
     private String failureTime = "2022-12-23 23:00:00";
 
     @Override
@@ -45,32 +48,81 @@ public class TodoActivity extends AppCompatActivity {
             }
         });
         setTime();
+        setGoal(); //设置目标
+    }
+
+    public void setGoal(){
+        TextView goal1 = (TextView) findViewById(R.id.goal1);
+        TextView goal2 = (TextView) findViewById(R.id.goal2);
+        TextView goal3 = (TextView) findViewById(R.id.goal3);
+        TextView goal4 = (TextView) findViewById(R.id.goal4);
+        TextView goal5 = (TextView) findViewById(R.id.goal5);
+        goalSp = getSharedPreferences("goalSp",0);
+        int id = goal1.getId();
+        goal1.setText(goalSp.getString(id+"","尚未设置"));
+        id = goal2.getId();
+        goal2.setText(goalSp.getString(id+"","尚未设置"));
+        id = goal3.getId();
+        goal3.setText(goalSp.getString(id+"","尚未设置"));
+        id = goal4.getId();
+        goal4.setText(goalSp.getString(id+"","尚未设置"));
+        id = goal5.getId();
+        goal5.setText(goalSp.getString(id+"","尚未设置"));
+    }
+
+
+    public int getScore(){
+        int score = 0;
+        EditText editScore1 = (EditText) findViewById(R.id.edit_score1);
+        EditText editScore2 = (EditText) findViewById(R.id.edit_score2);
+        EditText editScore3 = (EditText) findViewById(R.id.edit_score3);
+        EditText editScore4 = (EditText) findViewById(R.id.edit_score4);
+        EditText editScore5 = (EditText) findViewById(R.id.edit_score5);
+        score +=Integer.parseInt(editScore1.getText().toString());
+        score +=Integer.parseInt(editScore2.getText().toString());
+        score +=Integer.parseInt(editScore3.getText().toString());
+        score +=Integer.parseInt(editScore4.getText().toString());
+        score +=Integer.parseInt(editScore5.getText().toString());
+
+        editScore1.setText("");
+        editScore2.setText("");
+        editScore3.setText("");
+        editScore4.setText("");
+        editScore5.setText("");
+        return score;
     }
 
 
     public void ifsendScore(View view) {
         final EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
-        builder.setMessage("确认为"+message+"分吗？"); //设置内容
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); //关闭dialog
-                sendScore(editText);
-                editText.setText("");
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                editText.setText("");
-            }
-        });
+        if(!message.isEmpty()){
+            int score = getScore();
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
+            builder.setMessage("目标设置计算为"+score+"分，确认为"+message+"分吗？"); //设置内容
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss(); //关闭dialog
+                    sendScore(editText);
+                    editText.setText("");
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    editText.setText("");
+                }
+            });
 
-        //参数都设置完成了，创建并显示出来
-        builder.create().show();
+            //参数都设置完成了，创建并显示出来
+            builder.create().show();
+            return;
+        }else{
+            Toast.makeText(this,"需要打分",Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     //先弹出对话框再sendScore
@@ -153,5 +205,51 @@ public class TodoActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //点击textView弹出dialog并修改内容
+
+    public void onClick(View v){
+            showDialog(this,v);
+
+    }
+
+    public void showDialog(Context context,View view){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        final EditText et = new EditText(context);
+        et.setHint("设置新的目标");
+        final TextView goal = (TextView) findViewById(view.getId());
+        dialog.setView(et);//给对话框添加一个EditText输入文本框
+        final SharedPreferences.Editor editor = getSharedPreferences("goalSp", MODE_PRIVATE).edit();
+
+        //给对话框添加一个确定按钮，同样的方法可以添加一个取消按钮
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                String message =et.getText().toString();
+                if(!message.isEmpty()){
+                    editor.putString(goal.getId()+"",message);
+                    editor.apply();
+                    setGoal();
+                }
+            }
+        });
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        //下面是弹出键盘的关键处
+        AlertDialog tempDialog = dialog.create();
+        tempDialog.setView(et, 0, 0, 0, 0);
+
+        tempDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+        tempDialog.show();
     }
 }
