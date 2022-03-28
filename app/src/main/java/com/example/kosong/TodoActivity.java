@@ -70,7 +70,7 @@ public class TodoActivity extends AppCompatActivity {
         goal5.setText(goalSp.getString(id+"","尚未设置"));
     }
 
-
+    //获取输入的各目标分数
     public int getScore(){
         int score = 0;
         EditText editScore1 = (EditText) findViewById(R.id.edit_score1);
@@ -78,11 +78,21 @@ public class TodoActivity extends AppCompatActivity {
         EditText editScore3 = (EditText) findViewById(R.id.edit_score3);
         EditText editScore4 = (EditText) findViewById(R.id.edit_score4);
         EditText editScore5 = (EditText) findViewById(R.id.edit_score5);
-        score +=Integer.parseInt(editScore1.getText().toString());
-        score +=Integer.parseInt(editScore2.getText().toString());
-        score +=Integer.parseInt(editScore3.getText().toString());
-        score +=Integer.parseInt(editScore4.getText().toString());
-        score +=Integer.parseInt(editScore5.getText().toString());
+        if(!editScore1.getText().toString().isEmpty()){
+            score +=Integer.parseInt(editScore1.getText().toString());
+        }
+        if(!editScore2.getText().toString().isEmpty()){
+            score +=Integer.parseInt(editScore2.getText().toString());
+        }
+        if(!editScore3.getText().toString().isEmpty()){
+            score +=Integer.parseInt(editScore3.getText().toString());
+        }
+        if(!editScore4.getText().toString().isEmpty()){
+            score +=Integer.parseInt(editScore4.getText().toString());
+        }
+        if(!editScore5.getText().toString().isEmpty()){
+            score +=Integer.parseInt(editScore5.getText().toString());
+        }
 
         editScore1.setText("");
         editScore2.setText("");
@@ -92,7 +102,7 @@ public class TodoActivity extends AppCompatActivity {
         return score;
     }
 
-
+    //弹出对话框，进行确认
     public void ifsendScore(View view) {
         final EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
@@ -217,9 +227,10 @@ public class TodoActivity extends AppCompatActivity {
     public void showDialog(Context context,View view){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         final EditText et = new EditText(context);
-        et.setHint("设置新的目标");
+        et.setHint("set the goal");
         final TextView goal = (TextView) findViewById(view.getId());
         dialog.setView(et);//给对话框添加一个EditText输入文本框
+        dialog.setTitle(" ");
         final SharedPreferences.Editor editor = getSharedPreferences("goalSp", MODE_PRIVATE).edit();
 
         //给对话框添加一个确定按钮，同样的方法可以添加一个取消按钮
@@ -232,11 +243,6 @@ public class TodoActivity extends AppCompatActivity {
                     editor.apply();
                     setGoal();
                 }
-            }
-        });
-        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
         //下面是弹出键盘的关键处
