@@ -19,7 +19,6 @@ import java.util.Random;
 public class VocabularyActivity extends AppCompatActivity {
 
     ArrayList<String> letters = new ArrayList<>();
-    SharedPreferences lettersSP;
 
 
 
@@ -72,7 +71,7 @@ public class VocabularyActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.textView);
         TextView textView2 = (TextView) findViewById(R.id.textView1);
         String message = editText.getText().toString();
-        if(message.isEmpty()){
+        if(message.isEmpty()||message.equals(" ")){
             recoverVocabulary();
             return ;
         }
@@ -86,7 +85,11 @@ public class VocabularyActivity extends AppCompatActivity {
             recoverVocabulary();
             return ;
         }else{
-            letters.add(message);
+            //切割字符串
+            String[] strArr = message.split("  ");
+            for(int i = 0; i<strArr.length;i++){
+                letters.add(strArr[i]);
+            }
         }
         ArrayList<Integer> numbers = new ArrayList<>();
         if(letters.size()>0){
