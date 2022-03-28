@@ -227,8 +227,9 @@ public class TodoActivity extends AppCompatActivity {
     public void showDialog(Context context,View view){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         final EditText et = new EditText(context);
-        et.setHint("set the goal");
         final TextView goal = (TextView) findViewById(view.getId());
+        et.setHint(""+goal.getText()); //提示文为原有文字
+        et.setText(""+goal.getText()); //填充为原有文字
         dialog.setView(et);//给对话框添加一个EditText输入文本框
         dialog.setTitle(" ");
         final SharedPreferences.Editor editor = getSharedPreferences("goalSp", MODE_PRIVATE).edit();
