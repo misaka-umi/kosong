@@ -253,6 +253,18 @@ public class TodoActivity extends AppCompatActivity {
                 }
             }
         });
+        //下面是弹出键盘的关键处
+        AlertDialog tempDialog = dialog.create();
+        tempDialog.setView(et, 0, 0, 0, 0);
+
+        tempDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+        tempDialog.show();
     }
 
 
