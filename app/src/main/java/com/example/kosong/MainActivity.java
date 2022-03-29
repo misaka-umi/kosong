@@ -1,13 +1,19 @@
 package com.example.kosong;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textView1);
         handler.sendMessage(handler.obtainMessage());
+        setTitle();//设置题目
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//设置状态栏为黑色
     }
 
     /** Called when the user taps the Send button */
@@ -86,6 +94,53 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+     public void setTitle(){
+        TextView title = (TextView) findViewById(R.id.title);
+        SharedPreferences mainTitle = getSharedPreferences("mainTitle",MODE_PRIVATE);
+        String message = mainTitle.getString("title","点击此处设置文本");
+        title.setText(message);
+     }
+
+
+    //点击title textView弹出dialog并修改内容
+    public void onClick(View v){
+        showDialog(this,v);
+    }
+    public void showDialog(Context context, View view){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        final EditText et = new EditText(context);
+        et.setHint("💖写一句话吧"); //提示文为原有文字
+        dialog.setView(et);//给对话框添加一个EditText输入文本框
+        dialog.setTitle(" ");
+        final SharedPreferences.Editor editor = getSharedPreferences("mainTitle", MODE_PRIVATE).edit();
+
+        //给对话框添加一个确定按钮，同样的方法可以添加一个取消按钮
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                String message =et.getText().toString();
+                if(!message.isEmpty()){
+                    editor.putString("title",message);
+                    editor.apply();
+                    setTitle();
+                }
+            }
+        });
+        //下面是弹出键盘的关键处
+        AlertDialog tempDialog = dialog.create();
+        tempDialog.setView(et, 0, 0, 0, 0);
+
+        tempDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+        tempDialog.show();
     }
 
 }

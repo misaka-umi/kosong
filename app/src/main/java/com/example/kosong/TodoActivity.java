@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -49,7 +50,10 @@ public class TodoActivity extends AppCompatActivity {
         });
         setTime();
         setGoal(); //设置目标
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//设置状态栏为黑色
+
     }
+
 
     public void setGoal(){
         TextView goal1 = (TextView) findViewById(R.id.goal1);
@@ -59,15 +63,15 @@ public class TodoActivity extends AppCompatActivity {
         TextView goal5 = (TextView) findViewById(R.id.goal5);
         goalSp = getSharedPreferences("goalSp",0);
         int id = goal1.getId();
-        goal1.setText(goalSp.getString(id+"","尚未设置"));
+        goal1.setText(goalSp.getString(id+"","点击此处设置目标"));
         id = goal2.getId();
-        goal2.setText(goalSp.getString(id+"","尚未设置"));
+        goal2.setText(goalSp.getString(id+"","点击此处设置目标"));
         id = goal3.getId();
-        goal3.setText(goalSp.getString(id+"","尚未设置"));
+        goal3.setText(goalSp.getString(id+"","点击此处设置目标"));
         id = goal4.getId();
-        goal4.setText(goalSp.getString(id+"","尚未设置"));
+        goal4.setText(goalSp.getString(id+"","点击此处设置目标"));
         id = goal5.getId();
-        goal5.setText(goalSp.getString(id+"","尚未设置"));
+        goal5.setText(goalSp.getString(id+"","点击此处设置目标"));
     }
 
     //获取输入的各目标分数
@@ -203,8 +207,12 @@ public class TodoActivity extends AppCompatActivity {
                 long time = 283 - a / (1000 * 60 * 60 * 24);
                 planSp = getSharedPreferences("planSp",0);
                 time = time-planSp.getInt("number",0);
-                if(time>0){
+                if(time>0 && time<5){
                     textValue2.setText("漏评次数："+time);
+                }
+                if(time>=5){
+                    //如果超过五次漏评则弹出弹窗修改总分
+                    showScoreDialog(this,(int)time-1);
                 }
                 textScore.setText("完成度："+planSp.getFloat("score",100)+"%");
             }else{
@@ -216,6 +224,37 @@ public class TodoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+    public void showScoreDialog(Context context,final int time){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        final EditText et = new EditText(context);
+        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et.setHint("漏评"+time+"次，请输入平均分 0~100");
+        dialog.setView(et);//给对话框添加一个EditText输入文本框
+        dialog.setTitle(" ");
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                String message =et.getText().toString();
+                SharedPreferences planSp = getSharedPreferences("planSp",MODE_PRIVATE);
+                SharedPreferences.Editor editor = planSp.edit();
+                if(!message.isEmpty()){
+                    int x = Integer.parseInt(message);
+                    if(x>100 || x <0){
+                        return ;
+                    }
+                    float score = planSp.getFloat("score",100);
+                    score = score - ((100-x)/100/283)*time ;
+                    editor.putInt("number",planSp.getInt("number",0)+time);
+                    editor.putFloat("score",score);
+                    editor.commit();
+                    setTime();
+                }
+            }
+        });
+    }
+
 
     //点击textView弹出dialog并修改内容
 

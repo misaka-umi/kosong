@@ -26,6 +26,7 @@ public class VocabularyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulary);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//设置状态栏为黑色
 
         //获取之前保存的数据
         SharedPreferences DataList = getSharedPreferences("lettersSP", MODE_PRIVATE);
