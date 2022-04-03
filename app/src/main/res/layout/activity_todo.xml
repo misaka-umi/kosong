@@ -21,6 +21,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line1"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/goal1"
@@ -45,6 +47,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line2"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/goal2"
@@ -69,6 +73,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line3"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/goal3"
@@ -93,6 +99,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line4"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/goal4"
@@ -117,6 +125,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line5"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/goal5"
@@ -138,7 +148,215 @@
             android:id="@+id/edit_score5">
         </EditText>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line6"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal6"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score6">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line7"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal7"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score7">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line8"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal8"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score8">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line9"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal9"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score9">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line10"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal10"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score10">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line11"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal11"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score11">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:id="@+id/line12"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/goal12"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_weight="20"
+            android:textColor="#8F77B5"
+            android:onClick="onClick"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:id="@+id/edit_score12">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/listPlus"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:textColor="#60000000"
+            android:background="#00FFFFFF"
+            android:text="+">
+        </Button>
+        <Button
+            android:id="@+id/listMinus"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:textColor="#60000000"
+            android:background="#00FFFFFF"
+            android:text="-">
+        </Button>
+
+
+    </LinearLayout>
 
 
 

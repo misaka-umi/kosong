@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -15,16 +16,17 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class TodoActivity extends AppCompatActivity {
     SharedPreferences planSp;
-    SharedPreferences goalSp;
     private String failureTime = "2022-12-23 23:00:00";
 
     @Override
@@ -50,59 +52,110 @@ public class TodoActivity extends AppCompatActivity {
         });
         setTime();
         setGoal(); //设置目标
+        setVisibility();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//设置状态栏为黑色
+
+        //监听+按钮
+        Button listPlus = (Button) findViewById(R.id.listPlus);
+        listPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences goalsNumber = getSharedPreferences("goalsNumber", MODE_PRIVATE);
+                SharedPreferences.Editor editor  = goalsNumber.edit();
+                int nowNumber = goalsNumber.getInt("number",1);
+                if(nowNumber<12){
+                    editor.putInt("number",nowNumber+1);
+                    editor.apply();
+                    setVisibility();
+                }else{
+                    Toast.makeText(TodoActivity.this,"一天的目标太多啦，休息一下吧",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Button listMinus = (Button) findViewById(R.id.listMinus);
+        listMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences goalsNumber = getSharedPreferences("goalsNumber", MODE_PRIVATE);
+                SharedPreferences.Editor editor  = goalsNumber.edit();
+                int nowNumber = goalsNumber.getInt("number",1);
+                if(nowNumber>0){
+                    editor.putInt("number",goalsNumber.getInt("number",1)-1);
+                    editor.apply();
+                    setVisibility();
+                }
+            }
+        });
+
+    }
+
+    public void setVisibility(){
+        SharedPreferences goalsNumber = getSharedPreferences("goalsNumber", MODE_PRIVATE);
+        int number = goalsNumber.getInt("number",1);
+        String line = "line";
+        for(int i = 1;i<=number;i++){
+            try {
+                Field idField = R.id.class.getDeclaredField(line+i);
+                int id = idField.getInt(R.id.class);
+                LinearLayout layout = findViewById(id);
+                layout.setVisibility(View.VISIBLE);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        for(int i = number+1;i<=12;i++){
+            try {
+                Field idField = R.id.class.getDeclaredField(line+i);
+                int id = idField.getInt(R.id.class);
+                LinearLayout layout = findViewById(id);
+                layout.setVisibility(View.GONE);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
 
     public void setGoal(){
-        TextView goal1 = (TextView) findViewById(R.id.goal1);
-        TextView goal2 = (TextView) findViewById(R.id.goal2);
-        TextView goal3 = (TextView) findViewById(R.id.goal3);
-        TextView goal4 = (TextView) findViewById(R.id.goal4);
-        TextView goal5 = (TextView) findViewById(R.id.goal5);
-        goalSp = getSharedPreferences("goalSp",0);
-        int id = goal1.getId();
-        goal1.setText(goalSp.getString(id+"","点击此处设置目标"));
-        id = goal2.getId();
-        goal2.setText(goalSp.getString(id+"","点击此处设置目标"));
-        id = goal3.getId();
-        goal3.setText(goalSp.getString(id+"","点击此处设置目标"));
-        id = goal4.getId();
-        goal4.setText(goalSp.getString(id+"","点击此处设置目标"));
-        id = goal5.getId();
-        goal5.setText(goalSp.getString(id+"","点击此处设置目标"));
+        String goal = "goal";
+        for(int i = 1;i<=12;i++){
+            try {
+                SharedPreferences goalSp = getSharedPreferences("goalSp", MODE_PRIVATE);
+                Field idField = R.id.class.getDeclaredField(goal+i);
+                int id = idField.getInt(R.id.class);
+                TextView textView = findViewById(id);
+                textView.setText(goalSp.getString(id+"","点击此处设置目标"));
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //获取输入的各目标分数
     public int getScore(){
         int score = 0;
-        EditText editScore1 = (EditText) findViewById(R.id.edit_score1);
-        EditText editScore2 = (EditText) findViewById(R.id.edit_score2);
-        EditText editScore3 = (EditText) findViewById(R.id.edit_score3);
-        EditText editScore4 = (EditText) findViewById(R.id.edit_score4);
-        EditText editScore5 = (EditText) findViewById(R.id.edit_score5);
-        if(!editScore1.getText().toString().isEmpty()){
-            score +=Integer.parseInt(editScore1.getText().toString());
+        String edit_score = "edit_score";
+        for(int i = 1;i<=12;i++){
+            try {
+                Field idField = R.id.class.getDeclaredField(edit_score+i);
+                int id = idField.getInt(R.id.class);
+                EditText editText= findViewById(id);
+                if(!editText.getText().toString().isEmpty()){
+                    score +=Integer.parseInt(editText.getText().toString());
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
-        if(!editScore2.getText().toString().isEmpty()){
-            score +=Integer.parseInt(editScore2.getText().toString());
-        }
-        if(!editScore3.getText().toString().isEmpty()){
-            score +=Integer.parseInt(editScore3.getText().toString());
-        }
-        if(!editScore4.getText().toString().isEmpty()){
-            score +=Integer.parseInt(editScore4.getText().toString());
-        }
-        if(!editScore5.getText().toString().isEmpty()){
-            score +=Integer.parseInt(editScore5.getText().toString());
-        }
-
-        editScore1.setText("");
-        editScore2.setText("");
-        editScore3.setText("");
-        editScore4.setText("");
-        editScore5.setText("");
         return score;
     }
 
@@ -120,6 +173,22 @@ public class TodoActivity extends AppCompatActivity {
                     dialog.dismiss(); //关闭dialog
                     sendScore(editText);
                     editText.setText("");
+                    String edit_score = "edit_score";
+                    //分数提交后将分数清0
+                    for(int i = 1;i<=12;i++){
+                        try {
+                            Field idField = R.id.class.getDeclaredField(edit_score+i);
+                            int id = idField.getInt(R.id.class);
+                            EditText editText= findViewById(id);
+                            if(!editText.getText().toString().isEmpty()){
+                                editText.setText("");
+                            }
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
