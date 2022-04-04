@@ -349,7 +349,11 @@ public class TodoActivity extends AppCompatActivity {
         final EditText et = new EditText(context);
         final TextView goal = (TextView) findViewById(view.getId());
         et.setHint(""+goal.getText()); //提示文为原有文字
-        et.setText(""+goal.getText()); //填充为原有文字
+        if(goal.getText().equals("点击此处设置目标")){
+            et.setText("");
+        }else{
+            et.setText(""+goal.getText()); //填充为原有文字
+        }
         dialog.setView(et);//给对话框添加一个EditText输入文本框
         dialog.setTitle(" ");
         final SharedPreferences.Editor editor = getSharedPreferences("goalSp", MODE_PRIVATE).edit();
