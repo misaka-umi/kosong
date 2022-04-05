@@ -1,6 +1,7 @@
 package com.example.kosong;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -104,10 +106,19 @@ public class VocabularyActivity extends AppCompatActivity {
             }
             String vocabulary = "";
             int amount = 0;
+
+            //将乱序后的单词顺序写入sharedpreferences
+            //将乱序后单词展示在textview中
+            SharedPreferences disorderVocabulary = getSharedPreferences("disorderVocabulary",MODE_PRIVATE);
+            SharedPreferences.Editor disorderEditor = disorderVocabulary.edit();
             for(int i = 0; i< letters.size();i++){
                 vocabulary = vocabulary + letters.get(numbers.get(i))+"  ";
                 amount+=1;
+                disorderEditor.putInt("item_"+i,numbers.get(i));
             }
+            disorderEditor.putInt("nowIndex",0);
+            disorderEditor.putInt("amount",letters.size());
+            disorderEditor.apply();
 
 
             //将letters存入lettersSP；
@@ -117,7 +128,7 @@ public class VocabularyActivity extends AppCompatActivity {
             {
                 editor.putString("item_"+i, letters.get(i));
             }
-            editor.commit();
+            editor.apply();
 
 
             textView.setText(vocabulary);
@@ -162,6 +173,47 @@ public class VocabularyActivity extends AppCompatActivity {
             textView2.setText("");
             return ;
         }
+    }
+
+
+
+
+    public void ifPressNext(View view){
+        cardVocabulary();
+        return;
+    }
+    //输入新单词重新开始进行卡片式背诵
+    public void cardVocabulary(){
+        SharedPreferences disorderVocabulary = getSharedPreferences("disorderVocabulary",MODE_PRIVATE);
+        SharedPreferences.Editor editor = disorderVocabulary.edit();
+        CardView card = (CardView) findViewById(R.id.card);
+        TextView cardVocabulary = (TextView) findViewById(R.id.cardVocabulary);
+        TextView vocabulary = (TextView) findViewById(R.id.textView);
+        int nowIndex = disorderVocabulary.getInt("nowIndex",0);
+        if(nowIndex<disorderVocabulary.getInt("amount",0)){
+            cardVocabulary.setText(letters.get(disorderVocabulary.getInt("item_"+nowIndex,0)));
+            vocabulary.setVisibility(View.GONE);
+            card.setVisibility(View.VISIBLE);
+            nowIndex += 1;
+            editor.putInt("nowIndex",nowIndex);
+            editor.apply();
+            return;
+        }else{
+            card.setVisibility(View.GONE);
+            vocabulary.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void ifPressStart(View view){
+        restartCard();
+        return;
+    }
+    public void restartCard(){
+        SharedPreferences disorderVocabulary = getSharedPreferences("disorderVocabulary",MODE_PRIVATE);
+        SharedPreferences.Editor editor = disorderVocabulary.edit();
+        editor.putInt("nowIndex",0);
+        editor.apply();
+        cardVocabulary();
     }
 
 
