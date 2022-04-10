@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void changeVocabularies(View view) {
+        Intent intent = new Intent(this, ListHistoryVocabulariesActivity.class);
+        startActivity(intent);
+    }
+
     /* 测试用 */
     public void test(View view){
         Intent intent = new Intent(this, Main2Activity.class);

@@ -2,6 +2,8 @@ package com.example.kosong;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.room.Database;
+import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -11,9 +13,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.kosong.controller.dao.VocabularyDao;
+import com.example.kosong.controller.database.AppDatabase;
+import com.example.kosong.controller.entity.Vocabulary;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -77,6 +82,13 @@ public class VocabularyActivity extends AppCompatActivity {
         if(message.isEmpty()||message.equals(" ")){
             recoverVocabulary();
             return ;
+        }
+
+        //若输入commit，上传数据库
+        if(message.equals("commit")){
+            updateVocabularyDb();
+            Toast.makeText(this,"已上传数据库",Toast.LENGTH_SHORT).show();
+            return;
         }
         //若输入clear，则清空sharedpreference
         if(message.equals("clear")){
@@ -214,6 +226,23 @@ public class VocabularyActivity extends AppCompatActivity {
         editor.putInt("nowIndex",0);
         editor.apply();
         cardVocabulary();
+    }
+
+
+    public void updateVocabularyDb(){
+
+        final Vocabulary vocabulary = new Vocabulary();
+        vocabulary.setLetters(letters);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                AppDatabase db = AppDatabase.getInstance(VocabularyActivity.this);
+                VocabularyDao dao = db.getVocabularyDao();
+                dao.insertAll(vocabulary);
+                db.close();
+            }
+        }).start();
+        return;
     }
 
 
