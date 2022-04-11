@@ -25,13 +25,14 @@ public abstract class AppDatabase extends RoomDatabase {
     /**
      * 创建数据库*/
     private static AppDatabase create(Context context) {
-//        return Room.databaseBuilder(context,AppDatabase.class,DB_NAME)
-//                .build();
+        return Room.databaseBuilder(context,AppDatabase.class,DB_NAME)
+                .allowMainThreadQueries()//允许在主线程运行
+                .build();
 
 
-        AppDatabase db = Room.databaseBuilder(context,
-                AppDatabase.class, DB_NAME).build();
-        return db;
+//        AppDatabase db = Room.databaseBuilder(context,
+//                AppDatabase.class, DB_NAME).build();
+//        return db;
     }
 
     public  abstract VocabularyDao getVocabularyDao();//这个是必要的，创建DAO的抽象类

@@ -20,7 +20,9 @@ import com.example.kosong.controller.dao.VocabularyDao;
 import com.example.kosong.controller.database.AppDatabase;
 import com.example.kosong.controller.entity.Vocabulary;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 public class VocabularyActivity extends AppCompatActivity {
@@ -230,9 +232,11 @@ public class VocabularyActivity extends AppCompatActivity {
 
 
     public void updateVocabularyDb(){
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
         final Vocabulary vocabulary = new Vocabulary();
         vocabulary.setLetters(letters);
+        vocabulary.setDate(date);
         new Thread(new Runnable() {
             @Override
             public void run() {
